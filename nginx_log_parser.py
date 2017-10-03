@@ -4,6 +4,7 @@ import re
 code_500 = []
 nginx_log_list = []
 
+
 def load_log_file(filepath):
 	if not os.path.exists(filepath):
 		return None
