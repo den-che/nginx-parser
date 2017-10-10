@@ -73,14 +73,6 @@ def count_column(column_name):
     return db_count
     
     
-def count_ip():
-    # TODO try to use db_session.query(***).scalar() just once
-    distinct_ip_num = count_column(Log.IP)
-    distinct_code_num = count_column(Log.CODE)
-    distinct_method = count_column(Log.METHOD)
-    return distinct_ip_num, distinct_code_num, distinct_method  
-
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Please type one of the command! count or upload")
@@ -90,15 +82,14 @@ if __name__ == "__main__":
         file_path = "nginx.log"
         if not os.path.exists(file_path):
             print("File not found")
-        else:
-            if file_path.endswith(".log"):
-                if delete_records() is True:
-                    print("All Records in Table deleted!")
+            exit()
+        
+        if delete_records() is True:
+            print("All Records in Table deleted!")
                 
-                main_parser_nginx(file_path)             
-                print("Log was upload")            
+        main_parser_nginx(file_path)             
+        print("Log was upload")            
     elif sys.argv[1] == "count":
-        num_ip, num_code, num_method = count_ip()
-        print("IP: {}, CODE: {}, METHOD: {}".format(num_ip, num_code, num_method))
+        print("IP: {}, CODE: {}, METHOD: {}".format(count_column(Log.IP), count_column(Log.CODE), count_column(Log.METHOD)))
     else:
         print("Command is wrong. Input another value.")
